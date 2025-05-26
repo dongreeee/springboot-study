@@ -15,8 +15,29 @@
     <div>
         <a th:text="${i.title}" th:href="@{ '/detail/' + ${i.id} }"></a>
         <p th:text="${i.price}">7억</p>
+        <button type="button" th:attr="data-id=${i.id}" onclick="deleteItem(this);">버튼</button>
+<!--        <span th:onclick="fetch('item?id=[[${i.id}]]', {method: 'DELETE'})"></span>-->
     </div>
+
+
 </div>
+<script>
+
+    function deleteItem(button){
+    const id = button.getAttribute('data-id');
+      fetch('/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            }).then(r => r.text())
+            .then(()=> {
+            location.reload();
+            });
+    }
+
+</script>
 
 </body>
 </html>

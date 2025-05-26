@@ -1,16 +1,14 @@
-package com.apple.shop;
+package com.apple.shop.item;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
+import com.apple.shop.Notice;
+import com.apple.shop.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -96,5 +94,16 @@ public class ItemController {
         itemService.updateItem(id,title,price);
         return "redirect:/list";
     }
+
+    @DeleteMapping("/delete")
+    ResponseEntity<String> DeleteItem(@RequestBody Item body){
+        itemRepository.deleteById(body.getId());
+        return ResponseEntity.status(200).body("삭제완료");
+    }
+
+//    상품 삭제기능 만들기
+//    1. 상품마다 삭제버튼 만들고
+//    2. 누르면 서버에 요청하고 서버는 DB에 있던 행 삭제
+
 
 }

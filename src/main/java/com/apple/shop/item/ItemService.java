@@ -1,4 +1,4 @@
-package com.apple.shop;
+package com.apple.shop.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,9 +55,23 @@ public class ItemService {
             throw new IllegalArgumentException("id 조회 x");
         }
 
+        if (price < 0 || price > 1000000) {
+            throw new RuntimeException("범위안에 들어가지 못하는 숫자임 ");
+        }
+
+        if(title.length() >5){
+            throw new IllegalArgumentException("제목이 너무 길어요;");
+        }
+
         Item item = optionalItem.get();
         item.setTitle(title);
         item.setPrice(price);
         itemRepository.save(item);
+
+//        Item item = new Item();
+//        item.setId(id);
+//        item.setTitle(title);
+//        item.setPrice(price);
+//        itemRepository.save(item);
     }
 }
