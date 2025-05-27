@@ -4,6 +4,7 @@ import com.apple.shop.Notice;
 import com.apple.shop.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -105,5 +106,10 @@ public class ItemController {
 //    1. 상품마다 삭제버튼 만들고
 //    2. 누르면 서버에 요청하고 서버는 DB에 있던 행 삭제
 
+    @PostMapping("/test2")
+    String createId(){
+        var result = new BCryptPasswordEncoder().encode("문자입니다.");
 
+        return result;
+    }
 }
