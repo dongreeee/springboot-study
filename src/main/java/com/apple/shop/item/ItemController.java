@@ -4,6 +4,7 @@ import com.apple.shop.Notice;
 import com.apple.shop.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,16 +54,19 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String addPost(String title, Integer price) {
+    String addPost(String title, Integer price, Authentication auth) {
 //        @RequestParam Map<String,Object> formData
 //        Map formDate : Map 자료형으로 유저가 보낸 모든 데이터 변환해줌 -> 여러데이터 한 변수에 담고 싶을 때
 //        HashMap<String, Object> test = new HashMap<>();
 //        test.put("name", "kim");
 //        test.put("age", 20);
-
+        String username = "" ;
+        if(auth != null){
+            username = auth.getName();
+        }
 //        @ModelAttribute Item item
 
-        itemService.saveItem(title, price);
+        itemService.saveItem(title, price, username);
         return "redirect:/list";
     }
 //    유저가 입력한 값 전송 -> Post 요청

@@ -30,8 +30,24 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/")
         );
 
+//        로그아웃
+        http.logout( logout -> logout.logoutUrl("/logout") );
+
         return http.build();
 
 //        함수 빠르게 만드려면 ()->{}
     }
+
+//    20250529
+//    1. 남이 만든 클래스를 수정하고 싶으면 원본을 수정하는 것 보다는 extends로 복사해서 새로 클래스를 만드는 방법도 있습니다.
+//
+//2. extends로 복사할 때 super를 사용해서 constructor도 복사해서 완전범죄를 꾀하는게 좋습니다.
+//
+//3. 세션 유효기간 설정도 가능
+//
+//4. 세션 데이터를 안전하게 DB에 저장도 가능
+//
+//5. CSRF 기능 켜는 법 배움
+//
+//6. 라이브러리 세부 문법들은 AI에게 물어보거나 찾아보면 되는 것일 뿐 외울 필요 없습니다.
 }

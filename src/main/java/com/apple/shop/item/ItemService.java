@@ -13,7 +13,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public void saveItem(String title, Integer price){
+    public void saveItem(String title, Integer price, String username){
 
 //        예외처리
         if (price < 0 || price > 1000000) {
@@ -24,11 +24,18 @@ public class ItemService {
             throw new IllegalArgumentException("제목이 너무 길어요;");
         }
 
+        if(username != null){
+            throw new IllegalArgumentException("로그아웃상태임");
+        }
+
+
+
 
 //        강제로 에러 발생시키기
         Item item = new Item();
         item.setTitle(title);
         item.setPrice(price);
+        item.setUsername(username);
         itemRepository.save(item);
 
     }

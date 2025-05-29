@@ -15,6 +15,8 @@ public class Item {
     private String title;
     private Integer price;
 
+    private String username;
+
 
 
 //    클래스 변수, 함수에 붙이는 modifier
