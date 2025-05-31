@@ -20,6 +20,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final NoticeRepository noticeRepository;
     private final ItemService itemService;
+    private final S3Service s3Service;
 
 //    @Autowired 우클릭 Generate -> Constructor
 //    public ItemController(ItemRepository itemRepository) {
@@ -54,7 +55,7 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    String addPost(String title, Integer price, Authentication auth) {
+    String addPost(String title, Integer price, String filename, Authentication auth) {
 //        @RequestParam Map<String,Object> formData
 //        Map formDate : Map 자료형으로 유저가 보낸 모든 데이터 변환해줌 -> 여러데이터 한 변수에 담고 싶을 때
 //        HashMap<String, Object> test = new HashMap<>();
@@ -66,7 +67,7 @@ public class ItemController {
         }
 //        @ModelAttribute Item item
 
-        itemService.saveItem(title, price, username);
+        itemService.saveItem(title, price, username, filename);
         return "redirect:/list";
     }
 //    유저가 입력한 값 전송 -> Post 요청
@@ -116,4 +117,24 @@ public class ItemController {
 
         return result;
     }
+
+    @GetMapping("/list/page/{no}")
+    String getListPage(Model model, @PathVariable Integer no){
+
+        itemService.itemPage(model,no);
+        return "list.html";
+    }
+
+
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    String getURL(@RequestParam String filename){
+        System.out.println(filename);
+        var result = s3Service.createPresignedUrl("test/"+filename);
+        System.out.println(result);
+        return result;
+    }
+
+
+
 }
