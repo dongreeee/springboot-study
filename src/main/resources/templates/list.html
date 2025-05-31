@@ -20,6 +20,18 @@
     </div>
 
 
+
+
+
+</div>
+
+
+<div>
+  <span th:each="i : ${#numbers.sequence(0,pages)}">
+    <a th:href="@{'/list/page/' + ${i+1}}"
+       th:text="${i + 1}"
+       th:classappend="${i == pages} ? 'active' : ''"></a>
+  </span>
 </div>
 <script>
 

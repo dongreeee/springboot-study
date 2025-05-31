@@ -68,3 +68,10 @@ input {
   display : block;
   margin : auto;
 }
+
+    <style>
+        .active {
+          font-weight: bold;
+          color: red;
+        }
+    </style>

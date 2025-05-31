@@ -1,6 +1,8 @@
 package com.apple.shop.item;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -13,7 +15,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public void saveItem(String title, Integer price, String username){
+    public void saveItem(String title, Integer price, String username, String filename){
 
 //        예외처리
         if (price < 0 || price > 1000000) {
@@ -24,11 +26,9 @@ public class ItemService {
             throw new IllegalArgumentException("제목이 너무 길어요;");
         }
 
-        if(username != null){
+        if(username == null){
             throw new IllegalArgumentException("로그아웃상태임");
         }
-
-
 
 
 //        강제로 에러 발생시키기
@@ -36,6 +36,7 @@ public class ItemService {
         item.setTitle(title);
         item.setPrice(price);
         item.setUsername(username);
+        item.setImgurl(filename);
         itemRepository.save(item);
 
     }
@@ -43,6 +44,13 @@ public class ItemService {
     public void selectItem(Model model){
         List<Item> result = itemRepository.findAll();
         model.addAttribute("items",result);
+    }
+
+    public void itemPage(Model model, Integer no){
+        Page<Item> result = itemRepository.findPageBy(PageRequest.of(no-1, 5));
+        Integer pages = result.getTotalPages();
+        model.addAttribute("items",result);
+        model.addAttribute("pages",pages-1);
     }
 
     public void detailItem(Long id, Model model){
