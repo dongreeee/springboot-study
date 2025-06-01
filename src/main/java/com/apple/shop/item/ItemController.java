@@ -2,7 +2,10 @@ package com.apple.shop.item;
 
 import com.apple.shop.Notice;
 import com.apple.shop.NoticeRepository;
+import com.apple.shop.comment.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +23,7 @@ public class ItemController {
     private final ItemRepository itemRepository;
     private final NoticeRepository noticeRepository;
     private final ItemService itemService;
+    private final CommentService commentService;
     private final S3Service s3Service;
 
 //    @Autowired 우클릭 Generate -> Constructor
@@ -29,8 +33,23 @@ public class ItemController {
     // new ItemRepository() 하나 뽑아서 itemRepository 변수에 넣으라고 시키는 중
 
     @GetMapping("/list")
-    String shopList(Model model){
+    String shopList(@RequestParam(required = false) String searchText,
+                    @RequestParam(defaultValue = "1") Integer no,
+                    Model model){
 
+        Page<Item> result;
+        if(searchText != null && !searchText.isBlank()){
+            result = itemRepository.rawQuery1(searchText, PageRequest.of(no - 1, 5));
+            System.out.println(result.get());
+        }else{
+            result = itemRepository.findPageBy(PageRequest.of(no-1, 5));
+            System.out.println(result);
+        }
+
+        Integer pages = result.getTotalPages();
+        model.addAttribute("items",result);
+        model.addAttribute("searchText",searchText);
+        model.addAttribute("pages",pages-1);
         //JPA로 데이터 입출력하기
         // 1. repository 만들기
         // 2. 원하는 클래스에 repository 등록
@@ -38,7 +57,7 @@ public class ItemController {
 
 
 //        model.addAttribute("전달할데이터이름", "데이터");
-        itemService.selectItem(model);
+       // itemService.selectItem(model);
         return "list.html";
     }
 
@@ -81,6 +100,7 @@ public class ItemController {
     String detailItem(@PathVariable Long id, Model model){
 
                 itemService.detailItem(id, model);
+                commentService.detailComment(id, model);
                 return "detail.html";
 
 
@@ -133,6 +153,18 @@ public class ItemController {
         var result = s3Service.createPresignedUrl("test/"+filename);
         System.out.println(result);
         return result;
+    }
+
+    @PostMapping("/search")
+    String search(@RequestParam String searchText, Model model){
+//        item테이블에서 searchText가 들어있는거 찾아서 가져와주세요
+//        Page<Item> result = itemRepository.rawQuery1(searchText, PageRequest.of(no - 1, 5));
+//        Integer pages = result.getTotalPages();
+//        model.addAttribute("items",result);
+
+
+
+        return "list.html";
     }
 
 

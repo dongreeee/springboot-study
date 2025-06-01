@@ -3,10 +3,15 @@ package com.apple.shop.item;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@ToString
 @Getter
 @Setter
+@Table( indexes = {
+        @Index(name = "titleIdx", columnList = "title")
+})
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
