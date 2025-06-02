@@ -58,7 +58,7 @@ public class MemberController {
 //        System.out.println(auth.getName());
 //        System.out.println(auth.isAuthenticated());
 
-        MyUserDetailsService.CustomUser result = (MyUserDetailsService.CustomUser) auth.getPrincipal();
+        CustomUser result = (CustomUser) auth.getPrincipal();
         System.out.println(result.displayName);
 
 
