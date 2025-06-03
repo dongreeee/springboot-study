@@ -18,6 +18,20 @@
     <a th:href="@{'/updateView/' + ${items.id}}">수정</a>
 </div>
 
+<form action="/sales" method="post">
+    <input type="hidden" name="title" th:value="${items.title}">
+    <input type="hidden" name="price" th:value="${items.price}">
+    <div class="quantity-container">
+        <button type="button" onclick="changeQuantity(-1)">-</button>
+        <input type="text" name="count" id="quantity" value="1" readonly>
+        <button type="button" onclick="changeQuantity(1)">+</button>
+    </div>
+    <div>
+        <button type="submit">주문하기</button>
+    </div>
+
+</form>
+
 <h2>댓글 목록</h2>
 
 <ul>
@@ -26,6 +40,8 @@
         <span th:text="${i.content}">댓글 내용</span>
     </li>
 </ul>
+
+
 
 <!-- 20250601 **** 추후 페이지네이션 구현 해봅시둥 -->
 
@@ -49,6 +65,19 @@
         <button type="submit">댓글 등록</button>
     </div>
 </form>
+
+
+<script>
+    function changeQuantity(delta) {
+      const input = document.getElementById('quantity');
+      let value = parseInt(input.value);
+      value += delta;
+
+      if (value < 1) value = 1; // 최소 수량 1
+
+      input.value = value;
+    }
+</script>
 
 
 

@@ -34,19 +34,24 @@ public class ItemController {
 
     @GetMapping("/list")
     String shopList(@RequestParam(required = false) String searchText,
-                    @RequestParam(defaultValue = "1") Integer no,
+                    @RequestParam(defaultValue = "1") Integer page,
                     Model model){
+
 
         Page<Item> result;
         if(searchText != null && !searchText.isBlank()){
-            result = itemRepository.rawQuery1(searchText, PageRequest.of(no - 1, 5));
-            System.out.println(result.get());
+            result = itemRepository.rawQuery1(searchText, PageRequest.of(page- 1, 5));
+           // System.out.println(result.get());
         }else{
-            result = itemRepository.findPageBy(PageRequest.of(no-1, 5));
-            System.out.println(result);
+            result = itemRepository.findPageBy(PageRequest.of(page-1, 5));
+           // System.out.println(result);
         }
 
+
         Integer pages = result.getTotalPages();
+
+        System.out.println(pages);
+
         model.addAttribute("items",result);
         model.addAttribute("searchText",searchText);
         model.addAttribute("pages",pages-1);

@@ -26,6 +26,7 @@ public class MemberService {
             throw new Exception("너무짧음");
         }
 
+
         var pw_encode = passwordEncoder.encode(password);
 
 

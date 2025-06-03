@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+          border-collapse: collapse;
+          width: 60%;
+          margin: 20px;
+        }
+        th, td {
+          border: 1px solid #ccc;
+          text-align: center;
+          padding: 10px;
+        }
+        th {
+          background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        tr:nth-child(2) {
+          background-color: #e0e0e0; /* 셔츠 행 강조 */
+        }
+    </style>
+</head>
+<body>
+
+<h2>전체 주문내역</h2>
+
+<table class="sales-table">
+    <thead>
+    <tr>
+        <th>상품명</th>
+        <th>수량</th>
+        <th>가격</th>
+        <th>주문자</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="i : ${orderList}" >
+        <td th:text="${i.itemName}">셔츠</td>
+        <td th:text="${i.count}">2</td>
+        <td th:text="${i.price}">7000</td>
+        <td th:text="${i.member.displayname}">김</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
